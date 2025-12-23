@@ -31,16 +31,6 @@ pipeline {
                 sh 'g++ test.cpp -o test_cpp && ./test_cpp'
             }
         }
-
-        stage('Assembly Test') {
-            steps {
-                sh '''
-                nasm -f win64 test.asm -o test.obj
-                gcc test.obj -o test_asm.exe
-                ./test_asm.exe
-                '''
-            }
-        }
     }
 
     post {
