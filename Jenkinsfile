@@ -1,35 +1,46 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out code...'
                 checkout scm
             }
         }
-        
-        stage('Test') {
+
+        stage('Shell Test') {
             steps {
-                echo 'Running tests...'
-                sh 'chmod +x test.sh'
-                sh './test.sh'
+                sh 'chmod +x test.sh && ./test.sh'
             }
         }
-        
-        stage('Report') {
+
+        stage('Python Test') {
             steps {
-                echo 'Test execution completed successfully!'
+                sh 'python test.py'
+            }
+        }
+
+        stage('C Test') {
+            steps {
+                sh 'gcc test.c -o test_c && ./test_c'
+            }
+        }
+
+        stage('C++ Test') {
+            steps {
+                sh 'g++ test.cpp -o test_cpp && ./test_cpp'
+            }
+        }
+
+        stage('Assembly Test') {
+            steps {
+                sh 'nasm -f elf64 test.asm -o test.o && ld test.o -o test_asm && ./test_asm'
             }
         }
     }
-    
+
     post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
+        success { echo 'All tests passed' }
+        failure { echo 'One or more tests failed' }
     }
 }
