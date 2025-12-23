@@ -1,7 +1,7 @@
-section .text
-global _start
+global main
+extern ExitProcess
 
-_start:
-    mov rax, 60
-    xor rdi, rdi
-    syscall
+section .text
+main:
+    xor rcx, rcx        ; exit code 0
+    call ExitProcess
