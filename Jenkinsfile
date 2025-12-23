@@ -34,7 +34,11 @@ pipeline {
 
         stage('Assembly Test') {
             steps {
-                sh 'nasm -f elf64 test.asm -o test.o && ld test.o -o test_asm && ./test_asm'
+                sh '''
+                nasm -f win64 test.asm -o test.obj
+                gcc test.obj -o test_asm.exe
+                ./test_asm.exe
+                '''
             }
         }
     }
